@@ -17,7 +17,8 @@ namespace editorTexto
     public partial class Form1 : Form
     {
         private OpenFileDialog openFileDialog;
-        private string fileUbication = "";
+        string fileUbication = "";
+        string fileNombre = "Documento de Texto";
 
         public Form1()
         {
@@ -52,7 +53,7 @@ namespace editorTexto
         {
             openFileDialog = new OpenFileDialog();
             // Configurar el OpenFileDialog
-            openFileDialog.Filter = "Archivos de texto (*.txt)|*.txt |Archivos Json (*.json)|*.json";
+            openFileDialog.Filter = "Todos los Archivos |*.*";
             openFileDialog.FilterIndex = 1;
             openFileDialog.RestoreDirectory = true;
 
@@ -61,6 +62,7 @@ namespace editorTexto
             {
                 // Obtener la ruta del archivo seleccionado
                 string filePath = openFileDialog.FileName;
+                fileNombre = openFileDialog.SafeFileName;
                 fileUbication = filePath;
                 //Trasladando texto a richtextbox
                 try
@@ -68,6 +70,8 @@ namespace editorTexto
                     // Lee el contenido del archivo y lo carga en el RichTextBox
                     string contenido = File.ReadAllText(filePath);
                     richTextBox1.Text = contenido;
+                    // Actualiza el titulo
+                    this.Text = "El Danytor - " + this.fileNombre;
                 }
                 catch (Exception ex)
                 {
@@ -77,25 +81,52 @@ namespace editorTexto
         }
         private void guardarToolStripMenuItem_Save(object sender, EventArgs e)
         {
-            File.WriteAllText(fileUbication, richTextBox1.Text);
+            if (fileUbication != "")
+            {
+                File.WriteAllText(fileUbication, richTextBox1.Text);
+            }
+            else
+            {
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.RestoreDirectory = true;
+                saveFileDialog.Filter = "Archivo de Texto (*.txt)|*.txt |Todos los Archivos |*.*";
+                saveFileDialog.FilterIndex = 1;
+                saveFileDialog.FileName = "Documento de Texto";
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    File.WriteAllText(saveFileDialog.FileName, richTextBox1.Text);
+                    fileUbication = saveFileDialog.FileName;
+                    fileNombre = Path.GetFileName(saveFileDialog.FileName);
+                    // Actualiza el titulo
+                    this.Text = "El Danytor - " + this.fileNombre;
+                }
+                Console.WriteLine("Se guardó: " + fileNombre);
+            }
         }
 
         private void guardarComoToolStripMenuItem_Save(object sender, EventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.RestoreDirectory = false;
-            saveFileDialog.Filter = "Todos los Archivos |*.*";
+            saveFileDialog.RestoreDirectory = true;
+            saveFileDialog.Filter = "Archivo de Texto (*.txt)|*.txt| Todos los Archivos |*.*";
             saveFileDialog.FilterIndex = 1;
-            saveFileDialog.FileName = "Nuevo";
-            if (fileUbication != "")
+            saveFileDialog.FileName = "Documento de Texto";
+ 
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 saveFileDialog.InitialDirectory = fileUbication;
                 saveFileDialog.FileName = fileUbication;
-            }
-            if (saveFileDialog.ShowDialog() == DialogResult.OK)
-            {
                 File.WriteAllText(fileUbication, richTextBox1.Text);
+                fileNombre = Path.GetFileName(saveFileDialog.FileName);
+                Console.WriteLine("Se guardó como: " + fileNombre);
+                // Actualiza el titulo
+                this.Text = "El Danytor - " + this.fileNombre;
             }
+        }
+
+        private void salirToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

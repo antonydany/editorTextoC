@@ -52,7 +52,6 @@ namespace editorTexto
             this.richTextBox1.Size = new System.Drawing.Size(776, 375);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "Bienvenido";
-            this.richTextBox1.LanguageOption = RichTextBoxLanguageOptions.UIFonts;
             this.richTextBox1.SelectionChanged += new System.EventHandler(this.richTextBox1_SelectionChanged);
             // 
             // label1
@@ -117,6 +116,7 @@ namespace editorTexto
             this.salirToolStripMenuItem.Name = "salirToolStripMenuItem";
             this.salirToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.salirToolStripMenuItem.Text = "Salir";
+            this.salirToolStripMenuItem.Click += new System.EventHandler(this.salirToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -129,7 +129,7 @@ namespace editorTexto
             this.MainMenuStrip = this.TopMenuTools;
             this.MinimumSize = new System.Drawing.Size(400, 200);
             this.Name = "Form1";
-            this.Text = "El Danytor - Editor de texto";
+            this.Text = "El Danytor - Documento Nuevo";
             this.TopMenuTools.ResumeLayout(false);
             this.TopMenuTools.PerformLayout();
             this.ResumeLayout(false);

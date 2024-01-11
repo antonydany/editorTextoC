@@ -11,8 +11,8 @@
 > [!NOTE]
 > ### **Los checks que estan marcados pronto seran subidos**
 - [x] Mostrar el numero de caracteres seleccionados en el cuadro de texto
-- [ ] Sugerir guardar los cambios cuando se quita la ventana
-- [ ] agregar lista para editar texto
+- [x] Sugerir guardar los cambios cuando se quita la ventana
+- [ ] agregar droplist con funciones para editar texto
 - [ ] Funcion de `Copiar`, `Pegar` y `Cortar` por boton
 - [ ] Funcion de `Buscar`
 ---

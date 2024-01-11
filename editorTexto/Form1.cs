@@ -1,12 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 
@@ -19,14 +12,19 @@ namespace editorTexto
         private OpenFileDialog openFileDialog;
         string fileUbication = "";
         string fileNombre = "Documento de Texto";
+        private bool changesNotSaves = false;
 
         public Form1()
         {
             InitializeComponent();
         }
 
+        private void RichTextBox1_TextChanged(object sender, EventArgs e)
+        {
+            changesNotSaves = true;
+        }
 
-        private void richTextBox1_SelectionChanged(object sender, EventArgs e)
+        private void RichTextBox1_SelectionChanged(object sender, EventArgs e)
         {
             int posicion = richTextBox1.SelectionStart;
             int linea = richTextBox1.GetLineFromCharIndex(posicion);
@@ -34,29 +32,36 @@ namespace editorTexto
             label1.Text = "Ln: " + (linea + 1) + ", Col: " + (columna + 1);
             label1.Invalidate();
         }
+        private void RichTextBox1_SelectedCount(object sender, EventArgs e)
+        {
+            int countCharacters = richTextBox1.SelectionLength;
+            this.label2.Text = "Caracteres: " + countCharacters;
+            label2.Invalidate();
+        }
 
 
 
 
-        private void panel1_Paint(object sender, PaintEventArgs e)
+        private void Panel1_Paint(object sender, PaintEventArgs e)
         {
 
         }
 
 
-        private void label1_Click(object sender, EventArgs e)
+        private void Label1_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void abrirToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AbrirToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            openFileDialog = new OpenFileDialog();
-            // Configurar el OpenFileDialog
-            openFileDialog.Filter = "Todos los Archivos |*.*";
-            openFileDialog.FilterIndex = 1;
-            openFileDialog.RestoreDirectory = true;
-
+            openFileDialog = new OpenFileDialog
+            {
+                // Configurar el OpenFileDialog
+                Filter = "Archivo de Texto (*.txt)| *.txt|Todos los Archivos | *.*",
+                FilterIndex = 1,
+                RestoreDirectory = true,
+            };
             // Mostrar el cuadro de diálogo
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
@@ -71,7 +76,8 @@ namespace editorTexto
                     string contenido = File.ReadAllText(filePath);
                     richTextBox1.Text = contenido;
                     // Actualiza el titulo
-                    this.Text = "El Danytor - " + this.fileNombre;
+                    this.Text = "EditordeTexto v0.0.1 - " + this.fileNombre;
+                    changesNotSaves = false;
                 }
                 catch (Exception ex)
                 {
@@ -79,7 +85,7 @@ namespace editorTexto
                 }
             }
         }
-        private void guardarToolStripMenuItem_Save(object sender, EventArgs e)
+        private void GuardarToolStripMenuItem_Save(object sender, EventArgs e)
         {
             if (fileUbication != "")
             {
@@ -87,31 +93,35 @@ namespace editorTexto
             }
             else
             {
-                SaveFileDialog saveFileDialog = new SaveFileDialog();
-                saveFileDialog.RestoreDirectory = true;
-                saveFileDialog.Filter = "Archivo de Texto (*.txt)|*.txt |Todos los Archivos |*.*";
-                saveFileDialog.FilterIndex = 1;
-                saveFileDialog.FileName = "Documento de Texto";
+                SaveFileDialog saveFileDialog = new SaveFileDialog
+                {
+                    RestoreDirectory = true,
+                    Filter = "Archivo de Texto (*.txt)| *.txt|Todos los Archivos | *.*",
+                    FilterIndex = 1,
+                    FileName = "Documento de Texto"
+                };
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     File.WriteAllText(saveFileDialog.FileName, richTextBox1.Text);
                     fileUbication = saveFileDialog.FileName;
                     fileNombre = Path.GetFileName(saveFileDialog.FileName);
                     // Actualiza el titulo
-                    this.Text = "El Danytor - " + this.fileNombre;
+                    this.Text = "EditordeTexto v0.0.1 - " + this.fileNombre;
+                    changesNotSaves = false;
                 }
                 Console.WriteLine("Se guardó: " + fileNombre);
             }
         }
 
-        private void guardarComoToolStripMenuItem_Save(object sender, EventArgs e)
+        private void GuardarComoToolStripMenuItem_Save(object sender, EventArgs e)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.RestoreDirectory = true;
-            saveFileDialog.Filter = "Archivo de Texto (*.txt)|*.txt| Todos los Archivos |*.*";
-            saveFileDialog.FilterIndex = 1;
-            saveFileDialog.FileName = "Documento de Texto";
- 
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                RestoreDirectory = true,
+                Filter = "Archivo de Texto (*.txt)| *.txt|Todos los Archivos | *.*",
+                FilterIndex = 1,
+                FileName = "Documento de Texto",
+            };
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 saveFileDialog.InitialDirectory = fileUbication;
@@ -120,13 +130,87 @@ namespace editorTexto
                 fileNombre = Path.GetFileName(saveFileDialog.FileName);
                 Console.WriteLine("Se guardó como: " + fileNombre);
                 // Actualiza el titulo
-                this.Text = "El Danytor - " + this.fileNombre;
+                this.Text = "EditordeTexto v0.0.1 - " + this.fileNombre;
+                changesNotSaves = false;
             }
         }
 
-        private void salirToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SalirToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Close();
+            if (changesNotSaves)
+            {
+                SaveFileDialog saveFileDialog = new SaveFileDialog
+                {
+                    RestoreDirectory = true,
+                    Filter = "Archivo de Texto (*.txt)| *.txt|Todos los Archivos | *.*",
+                    FilterIndex = 1,
+                    FileName = "Documento de Texto",
+                };
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    saveFileDialog.InitialDirectory = fileUbication;
+                    saveFileDialog.FileName = fileUbication;
+                    File.WriteAllText(fileUbication, richTextBox1.Text);
+                    fileNombre = Path.GetFileName(saveFileDialog.FileName);
+                    Console.WriteLine("Se guardó como: " + fileNombre);
+                    // Actualiza el titulo
+                    this.Text = "EditordeTexto v0.0.1 - " + this.fileNombre;
+                    changesNotSaves = false;
+                }
+            }
+            else
+            {
+                this.Close();
+
+            }
+
         }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (changesNotSaves)
+            {
+                DialogResult result = MessageBox.Show("¿Quieres guardar los cambios antes de salir?", "Guardar cambios", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    SaveFileDialog saveFileDialog = new SaveFileDialog
+                    {
+                        RestoreDirectory = true,
+                        Filter = "Archivo de Texto (*.txt)| *.txt|Todos los Archivos | *.*",
+                        FilterIndex = 1,
+                        FileName = "Documento de Texto",
+                    };
+                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        saveFileDialog.InitialDirectory = fileUbication;
+                        saveFileDialog.FileName = fileUbication;
+                        File.WriteAllText(fileUbication, richTextBox1.Text);
+                        fileNombre = Path.GetFileName(saveFileDialog.FileName);
+                        Console.WriteLine("Se guardó como: " + fileNombre);
+                        // Actualiza el titulo
+                        this.Text = "EditordeTexto v0.0.1 - " + this.fileNombre;
+                        changesNotSaves = false;
+                    }
+                    else
+                    {
+                        // Cancelar el cierre si el usuario elige cancelar el guardado
+                        e.Cancel = true;
+                    }
+                }
+                else if (result == DialogResult.Cancel)
+                {
+                    // Cancelar el cierre si el usuario elige cancelar el guardado
+                    e.Cancel = true;
+                }
+            }
+        }
+
+
     }
 }

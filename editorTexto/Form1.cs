@@ -136,33 +136,7 @@ namespace editorTexto
 
         private void SalirToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (changesNotSaves)
-            {
-                SaveFileDialog saveFileDialog = new SaveFileDialog
-                {
-                    RestoreDirectory = true,
-                    Filter = "Archivo de Texto (*.txt)| *.txt|Todos los Archivos | *.*",
-                    FilterIndex = 1,
-                    FileName = "Documento de Texto",
-                };
-                if (saveFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    saveFileDialog.InitialDirectory = fileUbication;
-                    saveFileDialog.FileName = fileUbication;
-                    File.WriteAllText(fileUbication, richTextBox1.Text);
-                    fileNombre = Path.GetFileName(saveFileDialog.FileName);
-                    Console.WriteLine("Se guardó como: " + fileNombre);
-                    // Actualiza el titulo
-                    this.Text = "EditordeTexto v0.0.2(alpha) - " + this.fileNombre;
-                    changesNotSaves = false;
-                }
-            }
-            else
-            {
-                this.Close();
-
-            }
-
+            this.Close();
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)

@@ -18,7 +18,7 @@
 
 [ INICIO ] 
 
-![Screenshot de el inicio de la aplicacion](https://i.ibb.co/zJ6jCrS/image.png)
+![Screenshot de el inicio de la aplicacion](https://github.com/antonydany/editorTextoC/assets/78096173/bc789925-9c9f-412f-af80-72d8c526c493)
 
 
 [ Menú de Archivo ]

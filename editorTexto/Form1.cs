@@ -12,7 +12,7 @@ namespace editorTexto
     public partial class Form1 : Form
     {
         private OpenFileDialog openFileDialog;
-        private readonly Busqueda busqueda;
+        
         string fileUbication = "";
         string fileNombre = "Documento de Texto";
         private bool changesNotSaves = false;
@@ -75,7 +75,7 @@ namespace editorTexto
                     string contenido = File.ReadAllText(filePath);
                     richTextBox1.Text = contenido;
                     // Actualiza el titulo
-                    this.Text = "EditordeTexto v0.0.1 - " + this.fileNombre;
+                    this.Text = "EditordeTexto v0.0.2(alpha) - " + this.fileNombre;
                     changesNotSaves = false;
                 }
                 catch (Exception ex)
@@ -105,7 +105,7 @@ namespace editorTexto
                     fileUbication = saveFileDialog.FileName;
                     fileNombre = Path.GetFileName(saveFileDialog.FileName);
                     // Actualiza el titulo
-                    this.Text = "EditordeTexto v0.0.1 - " + this.fileNombre;
+                    this.Text = "EditordeTexto v0.0.2(alpha) - " + this.fileNombre;
                     changesNotSaves = false;
                 }
                 Console.WriteLine("Se guardó: " + fileNombre);
@@ -129,7 +129,7 @@ namespace editorTexto
                 fileNombre = Path.GetFileName(saveFileDialog.FileName);
                 Console.WriteLine("Se guardó como: " + fileNombre);
                 // Actualiza el titulo
-                this.Text = "EditordeTexto v0.0.1 - " + this.fileNombre;
+                this.Text = "EditordeTexto v0.0.2(alpha) - " + this.fileNombre;
                 changesNotSaves = false;
             }
         }
@@ -153,7 +153,7 @@ namespace editorTexto
                     fileNombre = Path.GetFileName(saveFileDialog.FileName);
                     Console.WriteLine("Se guardó como: " + fileNombre);
                     // Actualiza el titulo
-                    this.Text = "EditordeTexto v0.0.1 - " + this.fileNombre;
+                    this.Text = "EditordeTexto v0.0.2(alpha) - " + this.fileNombre;
                     changesNotSaves = false;
                 }
             }
@@ -194,7 +194,7 @@ namespace editorTexto
                             fileNombre = Path.GetFileName(saveFileDialog.FileName);
                             Console.WriteLine("Se guardó como: " + fileNombre);
                             // Actualiza el titulo
-                            this.Text = "EditordeTexto v0.0.1 - " + this.fileNombre;
+                            this.Text = "EditordeTexto v0.0.2(alpha) - " + this.fileNombre;
                             changesNotSaves = false;
                         }
                         else

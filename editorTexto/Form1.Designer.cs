@@ -218,7 +218,7 @@ namespace editorTexto
             this.MainMenuStrip = this.TopMenuTools;
             this.MinimumSize = new System.Drawing.Size(400, 200);
             this.Name = "Form1";
-            this.Text = "EditordeTexto v0.0.1 - Documento Nuevo";
+            this.Text = "EditordeTexto v0.0.2(alpha) - Documento Nuevo";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.TopMenuTools.ResumeLayout(false);
             this.TopMenuTools.PerformLayout();

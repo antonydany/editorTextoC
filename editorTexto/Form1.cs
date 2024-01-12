@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
+
 
 
 
@@ -10,9 +12,11 @@ namespace editorTexto
     public partial class Form1 : Form
     {
         private OpenFileDialog openFileDialog;
+        private readonly Busqueda busqueda;
         string fileUbication = "";
         string fileNombre = "Documento de Texto";
         private bool changesNotSaves = false;
+        string selectedText = "";
 
         public Form1()
         {
@@ -29,27 +33,22 @@ namespace editorTexto
             int posicion = richTextBox1.SelectionStart;
             int linea = richTextBox1.GetLineFromCharIndex(posicion);
             int columna = posicion - richTextBox1.GetFirstCharIndexFromLine(linea);
-            label1.Text = "Ln: " + (linea + 1) + ", Col: " + (columna + 1);
-            label1.Invalidate();
+            this.lineColumnLabel.Text = "Ln: " + (linea + 1) + ", Col: " + (columna + 1);
         }
         private void RichTextBox1_SelectedCount(object sender, EventArgs e)
         {
             int countCharacters = richTextBox1.SelectionLength;
-            this.label2.Text = "Caracteres: " + countCharacters;
-            label2.Invalidate();
-        }
+            if (countCharacters != 0)
+            {
+                this.CharactersLabel.Text = "Carácter: " + countCharacters;
+                this.CharactersLabel.Enabled = true;
+            }
+            else
+            {
+                this.CharactersLabel.Text = "Carácter: " + countCharacters;
+                this.CharactersLabel.Enabled = false;
+            }
 
-
-
-
-        private void Panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-
-        private void Label1_Click(object sender, EventArgs e)
-        {
 
         }
 
@@ -166,11 +165,6 @@ namespace editorTexto
 
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (changesNotSaves)
@@ -179,28 +173,35 @@ namespace editorTexto
 
                 if (result == DialogResult.Yes)
                 {
-                    SaveFileDialog saveFileDialog = new SaveFileDialog
+                    if (fileUbication != "")
                     {
-                        RestoreDirectory = true,
-                        Filter = "Archivo de Texto (*.txt)| *.txt|Todos los Archivos | *.*",
-                        FilterIndex = 1,
-                        FileName = "Documento de Texto",
-                    };
-                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
-                    {
-                        saveFileDialog.InitialDirectory = fileUbication;
-                        saveFileDialog.FileName = fileUbication;
                         File.WriteAllText(fileUbication, richTextBox1.Text);
-                        fileNombre = Path.GetFileName(saveFileDialog.FileName);
-                        Console.WriteLine("Se guardó como: " + fileNombre);
-                        // Actualiza el titulo
-                        this.Text = "EditordeTexto v0.0.1 - " + this.fileNombre;
-                        changesNotSaves = false;
                     }
                     else
                     {
-                        // Cancelar el cierre si el usuario elige cancelar el guardado
-                        e.Cancel = true;
+                        SaveFileDialog saveFileDialog = new SaveFileDialog
+                        {
+                            RestoreDirectory = true,
+                            Filter = "Archivo de Texto (*.txt)| *.txt|Todos los Archivos | *.*",
+                            FilterIndex = 1,
+                            FileName = "Documento de Texto",
+                        };
+                        if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                        {
+                            saveFileDialog.InitialDirectory = fileUbication;
+                            saveFileDialog.FileName = fileUbication;
+                            File.WriteAllText(fileUbication, richTextBox1.Text);
+                            fileNombre = Path.GetFileName(saveFileDialog.FileName);
+                            Console.WriteLine("Se guardó como: " + fileNombre);
+                            // Actualiza el titulo
+                            this.Text = "EditordeTexto v0.0.1 - " + this.fileNombre;
+                            changesNotSaves = false;
+                        }
+                        else
+                        {
+                            // Cancelar el cierre si el usuario elige cancelar el guardado
+                            e.Cancel = true;
+                        }
                     }
                 }
                 else if (result == DialogResult.Cancel)
@@ -211,6 +212,50 @@ namespace editorTexto
             }
         }
 
+        private void CortarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            selectedText = richTextBox1.SelectedText;
+            if (!string.IsNullOrEmpty(selectedText))
+            {
+                Clipboard.SetText(selectedText);
+                this.richTextBox1.SelectedText = "";
+            }
+        }
+
+        private void CopiarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            selectedText = richTextBox1.SelectedText;
+            if (!string.IsNullOrEmpty(selectedText))
+            {
+                Clipboard.SetText(selectedText);
+            }
+
+        }
+
+        private void PegarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Clipboard.ContainsText())
+            {
+
+                richTextBox1.Paste(DataFormats.GetFormat(DataFormats.Text));
+            }
+        }
+
+        private void SeleccionarTodoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            richTextBox1.SelectAll();
+        }
+
+        private void BuscarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Application.OpenForms.OfType<Busqueda>().Any())
+            {
+                Console.WriteLine("Ventana abierta");
+                return;
+            }
+            Busqueda busqueda = new Busqueda(richTextBox1);
+            busqueda.Show();
+        }
 
     }
 }

@@ -33,14 +33,22 @@ namespace editorTexto
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lineColumnLabel = new System.Windows.Forms.Label();
             this.TopMenuTools = new System.Windows.Forms.MenuStrip();
             this.archivoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.abrirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.guardarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.guardarComoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.label2 = new System.Windows.Forms.Label();
+            this.editarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cortarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copiarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pegarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.buscarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.seleccionarTodoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.CharactersLabel = new System.Windows.Forms.Label();
             this.TopMenuTools.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -54,29 +62,30 @@ namespace editorTexto
             this.richTextBox1.Size = new System.Drawing.Size(776, 375);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "Bienvenido";
-            this.richTextBox1.SelectionChanged += new System.EventHandler(this.RichTextBox1_SelectionChanged);
+            this.richTextBox1.HideSelection = false;
             this.richTextBox1.SelectionChanged += new System.EventHandler(this.RichTextBox1_SelectedCount);
+            this.richTextBox1.SelectionChanged += new System.EventHandler(this.RichTextBox1_SelectionChanged);
             this.richTextBox1.TextChanged += new System.EventHandler(this.RichTextBox1_TextChanged);
             // 
             // label1
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.lineColumnLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.Location = new System.Drawing.Point(12, 413);
-            this.label1.MaximumSize = new System.Drawing.Size(78, 28);
-            this.label1.MinimumSize = new System.Drawing.Size(78, 28);
-            this.label1.Name = "label1";
-            this.label1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label1.Size = new System.Drawing.Size(78, 28);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Ln: 1, Col: 1";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label1.Click += new System.EventHandler(this.Label1_Click);
+            this.lineColumnLabel.Location = new System.Drawing.Point(12, 413);
+            this.lineColumnLabel.MaximumSize = new System.Drawing.Size(78, 28);
+            this.lineColumnLabel.MinimumSize = new System.Drawing.Size(78, 28);
+            this.lineColumnLabel.Name = "label1";
+            this.lineColumnLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.lineColumnLabel.Size = new System.Drawing.Size(78, 28);
+            this.lineColumnLabel.TabIndex = 0;
+            this.lineColumnLabel.Text = "Ln: 1, Col: 1";
+            this.lineColumnLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // TopMenuTools
             // 
             this.TopMenuTools.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.archivoToolStripMenuItem});
+            this.archivoToolStripMenuItem,
+            this.editarToolStripMenuItem});
             this.TopMenuTools.Location = new System.Drawing.Point(0, 0);
             this.TopMenuTools.Name = "TopMenuTools";
             this.TopMenuTools.Size = new System.Drawing.Size(800, 24);
@@ -122,27 +131,87 @@ namespace editorTexto
             this.salirToolStripMenuItem.Text = "Salir";
             this.salirToolStripMenuItem.Click += new System.EventHandler(this.SalirToolStripMenuItem_Click);
             // 
-            // label2
+            // editarToolStripMenuItem
             // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.editarToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cortarToolStripMenuItem,
+            this.copiarToolStripMenuItem,
+            this.pegarToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.buscarToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.seleccionarTodoToolStripMenuItem});
+            this.editarToolStripMenuItem.Name = "editarToolStripMenuItem";
+            this.editarToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
+            this.editarToolStripMenuItem.Text = "Editar";
+            // 
+            // cortarToolStripMenuItem
+            // 
+            this.cortarToolStripMenuItem.Name = "cortarToolStripMenuItem";
+            this.cortarToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.cortarToolStripMenuItem.Text = "Cortar";
+            this.cortarToolStripMenuItem.Click += new System.EventHandler(this.CortarToolStripMenuItem_Click);
+            // 
+            // copiarToolStripMenuItem
+            // 
+            this.copiarToolStripMenuItem.Name = "copiarToolStripMenuItem";
+            this.copiarToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.copiarToolStripMenuItem.Text = "Copiar";
+            this.copiarToolStripMenuItem.Click += new System.EventHandler(this.CopiarToolStripMenuItem_Click);
+            // 
+            // pegarToolStripMenuItem
+            // 
+            this.pegarToolStripMenuItem.Name = "pegarToolStripMenuItem";
+            this.pegarToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.pegarToolStripMenuItem.Text = "Pegar";
+            this.pegarToolStripMenuItem.Click += new System.EventHandler(this.PegarToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(159, 6);
+            // 
+            // buscarToolStripMenuItem
+            // 
+            this.buscarToolStripMenuItem.Name = "buscarToolStripMenuItem";
+            this.buscarToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.buscarToolStripMenuItem.Text = "Buscar";
+            this.buscarToolStripMenuItem.Click += new System.EventHandler(this.BuscarToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(159, 6);
+            // 
+            // seleccionarTodoToolStripMenuItem
+            // 
+            this.seleccionarTodoToolStripMenuItem.Name = "seleccionarTodoToolStripMenuItem";
+            this.seleccionarTodoToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.seleccionarTodoToolStripMenuItem.Text = "Seleccionar todo";
+            this.seleccionarTodoToolStripMenuItem.Click += new System.EventHandler(this.SeleccionarTodoToolStripMenuItem_Click);
+            // 
+            // CharactersLabel
+            // 
+            this.CharactersLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.Location = new System.Drawing.Point(96, 413);
-            this.label2.MaximumSize = new System.Drawing.Size(78, 28);
-            this.label2.MinimumSize = new System.Drawing.Size(78, 28);
-            this.label2.Name = "label2";
-            this.label2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label2.Size = new System.Drawing.Size(78, 28);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Caracteres: 0";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.CharactersLabel.Enabled = false;
+            this.CharactersLabel.Location = new System.Drawing.Point(96, 413);
+            this.CharactersLabel.MaximumSize = new System.Drawing.Size(78, 28);
+            this.CharactersLabel.MinimumSize = new System.Drawing.Size(78, 28);
+            this.CharactersLabel.Name = "CharactersLabel";
+            this.CharactersLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.CharactersLabel.Size = new System.Drawing.Size(78, 28);
+            this.CharactersLabel.TabIndex = 2;
+            this.CharactersLabel.Text = "Carácter: 0";
+            this.CharactersLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.CharactersLabel);
+            this.Controls.Add(this.lineColumnLabel);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.TopMenuTools);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -150,26 +219,33 @@ namespace editorTexto
             this.MinimumSize = new System.Drawing.Size(400, 200);
             this.Name = "Form1";
             this.Text = "EditordeTexto v0.0.1 - Documento Nuevo";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.TopMenuTools.ResumeLayout(false);
             this.TopMenuTools.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
-            this.FormClosing += new FormClosingEventHandler(this.Form1_FormClosing);
 
         }
 
         #endregion
 
         private System.Windows.Forms.RichTextBox richTextBox1;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lineColumnLabel;
         private MenuStrip TopMenuTools;
         private ToolStripMenuItem archivoToolStripMenuItem;
         private ToolStripMenuItem abrirToolStripMenuItem;
         private ToolStripMenuItem guardarToolStripMenuItem;
         private ToolStripMenuItem guardarComoToolStripMenuItem;
         private ToolStripMenuItem salirToolStripMenuItem;
-        private Label label2;
+        private Label CharactersLabel;
+        private ToolStripMenuItem editarToolStripMenuItem;
+        private ToolStripMenuItem cortarToolStripMenuItem;
+        private ToolStripMenuItem copiarToolStripMenuItem;
+        private ToolStripMenuItem pegarToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripMenuItem seleccionarTodoToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator2;
+        private ToolStripMenuItem buscarToolStripMenuItem;
     }
 }
 

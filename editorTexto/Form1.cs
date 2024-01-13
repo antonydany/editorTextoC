@@ -12,6 +12,7 @@ namespace editorTexto
     public partial class Form1 : Form
     {
         private OpenFileDialog openFileDialog;
+        readonly string windowTitle = "EditordeTexto v0.0.2(alpha) - ";
         
         string fileUbication = "";
         string fileNombre = "Documento de Texto";
@@ -25,7 +26,10 @@ namespace editorTexto
 
         private void RichTextBox1_TextChanged(object sender, EventArgs e)
         {
-            changesNotSaves = true;
+            if (!changesNotSaves)
+            {
+                changesNotSaves = true;
+            }
         }
 
         private void RichTextBox1_SelectionChanged(object sender, EventArgs e)
@@ -33,24 +37,15 @@ namespace editorTexto
             int posicion = richTextBox1.SelectionStart;
             int linea = richTextBox1.GetLineFromCharIndex(posicion);
             int columna = posicion - richTextBox1.GetFirstCharIndexFromLine(linea);
-            this.lineColumnLabel.Text = "Ln: " + (linea + 1) + ", Col: " + (columna + 1);
+            this.lineColumnLabel.Text = $"Ln: {linea + 1}, Col: {columna + 1}";
         }
         private void RichTextBox1_SelectedCount(object sender, EventArgs e)
         {
             int countCharacters = richTextBox1.SelectionLength;
-            if (countCharacters != 0)
-            {
-                this.CharactersLabel.Text = "Carácter: " + countCharacters;
-                this.CharactersLabel.Enabled = true;
-            }
-            else
-            {
-                this.CharactersLabel.Text = "Carácter: " + countCharacters;
-                this.CharactersLabel.Enabled = false;
-            }
-
-
+            this.CharactersLabel.Text = $"Carácter: {countCharacters}";
+            this.CharactersLabel.Enabled = countCharacters != 0;
         }
+
 
         private void AbrirToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -75,7 +70,7 @@ namespace editorTexto
                     string contenido = File.ReadAllText(filePath);
                     richTextBox1.Text = contenido;
                     // Actualiza el titulo
-                    this.Text = "EditordeTexto v0.0.2(alpha) - " + this.fileNombre;
+                    this.Text = windowTitle + this.fileNombre;
                     changesNotSaves = false;
                 }
                 catch (Exception ex)
@@ -86,7 +81,7 @@ namespace editorTexto
         }
         private void GuardarToolStripMenuItem_Save(object sender, EventArgs e)
         {
-            if (fileUbication != "")
+            if (!string.IsNullOrEmpty(fileUbication))
             {
                 File.WriteAllText(fileUbication, richTextBox1.Text);
             }
@@ -101,15 +96,18 @@ namespace editorTexto
                 };
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    File.WriteAllText(saveFileDialog.FileName, richTextBox1.Text);
-                    fileUbication = saveFileDialog.FileName;
-                    fileNombre = Path.GetFileName(saveFileDialog.FileName);
-                    // Actualiza el titulo
-                    this.Text = "EditordeTexto v0.0.2(alpha) - " + this.fileNombre;
-                    changesNotSaves = false;
+                    SaveFile(saveFileDialog.FileName);
                 }
-                Console.WriteLine("Se guardó: " + fileNombre);
+                // Console.WriteLine("Se guardó: " + fileNombre);
             }
+        }
+
+        private void SaveFile(string filePath)
+        {
+            File.WriteAllText(filePath, richTextBox1.Text);
+            fileNombre = Path.GetFileName(filePath);
+            this.Text = windowTitle + fileNombre;
+            changesNotSaves = false;
         }
 
         private void GuardarComoToolStripMenuItem_Save(object sender, EventArgs e)
@@ -119,20 +117,17 @@ namespace editorTexto
                 RestoreDirectory = true,
                 Filter = "Archivo de Texto (*.txt)| *.txt|Todos los Archivos | *.*",
                 FilterIndex = 1,
-                FileName = "Documento de Texto",
+                FileName = fileNombre,
             };
+
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                saveFileDialog.InitialDirectory = fileUbication;
-                saveFileDialog.FileName = fileUbication;
-                File.WriteAllText(fileUbication, richTextBox1.Text);
-                fileNombre = Path.GetFileName(saveFileDialog.FileName);
+                SaveFile(saveFileDialog.FileName);
                 Console.WriteLine("Se guardó como: " + fileNombre);
-                // Actualiza el titulo
-                this.Text = "EditordeTexto v0.0.2(alpha) - " + this.fileNombre;
-                changesNotSaves = false;
             }
         }
+
+
 
         private void SalirToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -162,14 +157,12 @@ namespace editorTexto
                         };
                         if (saveFileDialog.ShowDialog() == DialogResult.OK)
                         {
-                            saveFileDialog.InitialDirectory = fileUbication;
-                            saveFileDialog.FileName = fileUbication;
-                            File.WriteAllText(fileUbication, richTextBox1.Text);
                             fileNombre = Path.GetFileName(saveFileDialog.FileName);
-                            Console.WriteLine("Se guardó como: " + fileNombre);
+                            File.WriteAllText(saveFileDialog.FileName, richTextBox1.Text);
                             // Actualiza el titulo
-                            this.Text = "EditordeTexto v0.0.2(alpha) - " + this.fileNombre;
+                            this.Text = windowTitle + fileNombre;
                             changesNotSaves = false;
+                            Console.WriteLine("Se guardó como: " + fileNombre);
                         }
                         else
                         {

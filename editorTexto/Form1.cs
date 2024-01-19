@@ -12,7 +12,7 @@ namespace editorTexto
     public partial class Form1 : Form
     {
         private OpenFileDialog openFileDialog;
-        readonly string windowTitle = "EditordeTexto v0.0.2(alpha) - ";
+        readonly string windowTitle = "EditordeTexto v0.2.0(alpha) - ";
 
         string fileUbication = "";
         string fileNombre = "Documento de Texto";

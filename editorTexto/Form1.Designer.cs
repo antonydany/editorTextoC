@@ -48,7 +48,12 @@ namespace editorTexto
             this.buscarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.seleccionarTodoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.verToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.zoomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.acercarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.alejarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CharactersLabel = new System.Windows.Forms.Label();
+            this.restaurarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TopMenuTools.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -57,24 +62,24 @@ namespace editorTexto
             this.richTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTextBox1.HideSelection = false;
             this.richTextBox1.Location = new System.Drawing.Point(12, 31);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(776, 375);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "Bienvenido";
-            this.richTextBox1.HideSelection = false;
-            this.richTextBox1.SelectionChanged += new System.EventHandler(this.RichTextBox1_SelectedCount);
             this.richTextBox1.SelectionChanged += new System.EventHandler(this.RichTextBox1_SelectionChanged);
             this.richTextBox1.TextChanged += new System.EventHandler(this.RichTextBox1_TextChanged);
+            this.richTextBox1.MouseWheel += this.RichTextBox1_MouseWheel;
             // 
-            // label1
+            // lineColumnLabel
             // 
             this.lineColumnLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lineColumnLabel.Location = new System.Drawing.Point(12, 413);
             this.lineColumnLabel.MaximumSize = new System.Drawing.Size(78, 28);
             this.lineColumnLabel.MinimumSize = new System.Drawing.Size(78, 28);
-            this.lineColumnLabel.Name = "label1";
+            this.lineColumnLabel.Name = "lineColumnLabel";
             this.lineColumnLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.lineColumnLabel.Size = new System.Drawing.Size(78, 28);
             this.lineColumnLabel.TabIndex = 0;
@@ -85,7 +90,8 @@ namespace editorTexto
             // 
             this.TopMenuTools.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.archivoToolStripMenuItem,
-            this.editarToolStripMenuItem});
+            this.editarToolStripMenuItem,
+            this.verToolStripMenuItem});
             this.TopMenuTools.Location = new System.Drawing.Point(0, 0);
             this.TopMenuTools.Name = "TopMenuTools";
             this.TopMenuTools.Size = new System.Drawing.Size(800, 24);
@@ -115,14 +121,14 @@ namespace editorTexto
             this.guardarToolStripMenuItem.Name = "guardarToolStripMenuItem";
             this.guardarToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.guardarToolStripMenuItem.Text = "Guardar";
-            this.guardarToolStripMenuItem.Click += new System.EventHandler(this.GuardarToolStripMenuItem_Save);
+            this.guardarToolStripMenuItem.Click += new System.EventHandler(this.GuardarToolStripMenuItem_Click);
             // 
             // guardarComoToolStripMenuItem
             // 
             this.guardarComoToolStripMenuItem.Name = "guardarComoToolStripMenuItem";
             this.guardarComoToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.guardarComoToolStripMenuItem.Text = "Guardar Como...";
-            this.guardarComoToolStripMenuItem.Click += new System.EventHandler(this.GuardarComoToolStripMenuItem_Save);
+            this.guardarComoToolStripMenuItem.Click += new System.EventHandler(this.GuardarComoToolStripMenuItem_Click);
             // 
             // salirToolStripMenuItem
             // 
@@ -190,6 +196,38 @@ namespace editorTexto
             this.seleccionarTodoToolStripMenuItem.Text = "Seleccionar todo";
             this.seleccionarTodoToolStripMenuItem.Click += new System.EventHandler(this.SeleccionarTodoToolStripMenuItem_Click);
             // 
+            // verToolStripMenuItem
+            // 
+            this.verToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.zoomToolStripMenuItem});
+            this.verToolStripMenuItem.Name = "verToolStripMenuItem";
+            this.verToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
+            this.verToolStripMenuItem.Text = "Ver";
+            // 
+            // zoomToolStripMenuItem
+            // 
+            this.zoomToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.acercarToolStripMenuItem,
+            this.alejarToolStripMenuItem,
+            this.restaurarToolStripMenuItem});
+            this.zoomToolStripMenuItem.Name = "zoomToolStripMenuItem";
+            this.zoomToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.zoomToolStripMenuItem.Text = "Zoom";
+            // 
+            // acercarToolStripMenuItem
+            // 
+            this.acercarToolStripMenuItem.Name = "acercarToolStripMenuItem";
+            this.acercarToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
+            this.acercarToolStripMenuItem.Text = "Acercar";
+            this.acercarToolStripMenuItem.Click += new System.EventHandler(this.AcercarToolStripMenuItem_Click);
+            // 
+            // alejarToolStripMenuItem
+            // 
+            this.alejarToolStripMenuItem.Name = "alejarToolStripMenuItem";
+            this.alejarToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
+            this.alejarToolStripMenuItem.Text = "Alejar";
+            this.alejarToolStripMenuItem.Click += new System.EventHandler(this.AlejarToolStripMenuItem_Click);
+            // 
             // CharactersLabel
             // 
             this.CharactersLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -204,6 +242,13 @@ namespace editorTexto
             this.CharactersLabel.TabIndex = 2;
             this.CharactersLabel.Text = "Carácter: 0";
             this.CharactersLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // restaurarToolStripMenuItem
+            // 
+            this.restaurarToolStripMenuItem.Name = "restaurarToolStripMenuItem";
+            this.restaurarToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
+            this.restaurarToolStripMenuItem.Text = "Restaurar Zoom Predeterminado";
+            this.restaurarToolStripMenuItem.Click += new System.EventHandler(this.RestaurarToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -246,6 +291,11 @@ namespace editorTexto
         private ToolStripMenuItem seleccionarTodoToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator2;
         private ToolStripMenuItem buscarToolStripMenuItem;
+        private ToolStripMenuItem verToolStripMenuItem;
+        private ToolStripMenuItem zoomToolStripMenuItem;
+        private ToolStripMenuItem acercarToolStripMenuItem;
+        private ToolStripMenuItem alejarToolStripMenuItem;
+        private ToolStripMenuItem restaurarToolStripMenuItem;
     }
 }
 

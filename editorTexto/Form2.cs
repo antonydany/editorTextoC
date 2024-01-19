@@ -33,9 +33,9 @@ namespace editorTexto
 
                 richTextBox1.Select(index, textoBusqueda.Length);
                 richTextBox1.ScrollToCaret();  // Opcional: Desplaza automáticamente hasta el texto seleccionado
-                
+
             }
-            
+
         }
 
 
@@ -53,7 +53,7 @@ namespace editorTexto
                 richTextBox1.Select(index, textoBusqueda.Length);
                 richTextBox1.ScrollToCaret();  // Opcional: Desplaza automáticamente hasta el texto seleccionado
             }
-            
+
         }
 
     }

@@ -12,8 +12,6 @@
 - Funcion de `Buscar`
 - Funciones en `Ver` -> `Zoom` como `Acercar`, `Alejar`, `Restaurar Zoom`
 
-## **`En desarrollo:`**
-- Poner alguna señal de que el archivo está guardado o no
 
 ## EDITOR DE TEXTO v0.2.0-alpha
 
